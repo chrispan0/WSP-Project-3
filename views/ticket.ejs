@@ -1,0 +1,91 @@
+<%- include Partials/header.ejs %> <%- include Partials/main_nav.ejs %>
+<h1><%= title %></h1>
+<p>
+  Please submit a ticket below and one of our Helpdesk Technicians will be with
+  you shortly.
+</p>
+<br />
+<section id="contact" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Submit a Ticket</h2>
+    <form action="" method="post" enctype="text/plain" class="row g-3">
+      <div class="col-md-6">
+        <label for="name" class="form-label">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          class="form-control"
+          placeholder="Add Name Here"
+          required
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label for="email" class="form-label">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-control"
+          placeholder="Add Email Here"
+          required
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label for="Title" class="form-label">Title:</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="form-control"
+          placeholder="Add Title Here"
+          required
+        />
+      </div>
+
+      <div class="col-12">
+        <label for="description" class="form-label">Description:</label>
+        <textarea
+          id="description"
+          name="description"
+          rows="5"
+          class="form-control"
+          placeholder="Add Description Here"
+        ></textarea>
+      </div>
+
+      <div class="col-md-6">
+        <label for="issuetype" class="form-label"
+          >Please select the issue type</label
+        >
+        <select name="where" class="form-select" id="where">
+          <option value="Soft">Software</option>
+          <option value="Hard">Hardware</option>
+          <option value="Inq">Inquiry/Question</option>
+          <option value="Net">Network/WiFi</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="priority" class="form-label"
+          >Please select the priority level</label
+        >
+        <select name="where" class="form-select" id="where">
+          <option value="Low">Low</option>
+          <option value="Med">Medium (Default)</option>
+          <option value="High">High</option>
+          <option value="Urg">Urgent</option>
+          <option value="Onc">OnCall (After Hours)</option>
+        </select>
+      </div>
+
+      <div class="col-12 text-center mt-4">
+        <button type="submit" class="btn btn-primary me-2">Submit</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+      </div>
+    </form>
+  </div>
+</section>
+<%- include Partials/footer.ejs %>
