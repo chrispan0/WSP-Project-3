@@ -8,7 +8,12 @@
 <section id="contact" class="py-5">
   <div class="container">
     <h2 class="text-center mb-4">Submit a Ticket</h2>
-    <form action="" method="post" enctype="text/plain" class="row g-3">
+    <form
+      action="/create"
+      method="post"
+      enctype="application/x-www-form-urlencoded"
+      class="row g-3"
+    >
       <div class="col-md-6">
         <label for="name" class="form-label">Name:</label>
         <input
@@ -57,7 +62,7 @@
       </div>
 
       <div class="col-md-6">
-        <label for="issuetype" class="form-label"
+        <label for="type" class="form-label"
           >Please select the issue type</label
         >
         <select name="where" class="form-select" id="where">
