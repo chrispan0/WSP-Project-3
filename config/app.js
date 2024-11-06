@@ -10,15 +10,15 @@ let bookRouter = require('../routes/book')
 
 let app = express();
 let mongoose = require('mongoose');
-let DB = require('./db');
+require('dotenv').config();
 // point my mongoose to the URI
-mongoose.connect(DB.URI);
+mongoose.connect(process.env.DB_URI);
 let mongoDB = mongoose.connection;
 mongoDB.on('error',console.error.bind(console,'Connection Error'))
 mongoDB.once('open',()=>{
   console.log('MongoDB Connected')
 })
-mongoose.connect(DB.URI,{useNewURIParser:true,
+mongoose.connect(process.env.DB_URI,{useNewURIParser:true,
   useUnifiedTopology:true
 })
 // view engine setup
