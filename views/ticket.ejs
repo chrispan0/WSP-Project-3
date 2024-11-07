@@ -86,12 +86,20 @@
           <option value="4">Urgent</option>
         </select>
       </div>
-
+      <div
+        class="cf-turnstile d-flex justify-content-center"
+        data-sitekey="<%= siteKey %>"
+      ></div>
       <div class="col-12 text-center mt-4">
         <button type="submit" class="btn btn-primary me-2">Submit</button>
         <button type="reset" class="btn btn-secondary">Reset</button>
       </div>
     </form>
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer
+    ></script>
   </div>
 </section>
 <%- include Partials/footer.ejs %>
