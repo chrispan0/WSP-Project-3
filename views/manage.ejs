@@ -8,19 +8,27 @@
         <tr class="d-flex">
           <th class="col-2">Name</th>
           <th class="col-2">Email</th>
-          <th class="col-2">Title</th>
-          <th class="col-4">Description</th>
+          <th class="col-1">Title</th>
+          <th class="col-3">Description</th>
           <th class="text-center col-1">Type</th>
           <th class="text-center col-1">Priority</th>
+          <th class="text-center col-1">Edit</th>
+          <th class="text-center col-1">Complete</th>
         </tr>
         <% for(let count=0;count<ticket_list.length;count++) { %>
         <tr class="d-flex">
           <td class="col-2"><%= ticket_list[count].name %></td>
           <td class="col-2"><%= ticket_list[count].email %></td>
-          <td class="col-2"><%= ticket_list[count].title %></td>
-          <td class="col-4"><%= ticket_list[count].description %></td>
+          <td class="col-1"><%= ticket_list[count].title %></td>
+          <td class="col-3"><%= ticket_list[count].description %></td>
           <td class="text-center col-1"><%= ticket_list[count].type %></td>
           <td class="text-center col-1"><%= ticket_list[count].priority %></td>
+          <td class="text-center col-1">
+            <button class="btn btn-primary">Edit</button>
+          </td>
+          <td class="text-center col-1">
+            <button class="btn btn-success">Complete</button>
+          </td>
         </tr>
         <% } %>
       </table>
