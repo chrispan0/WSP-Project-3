@@ -33,9 +33,4 @@ router.post("/create", async (req, res, next) => {
   res.redirect("/");
 });
 
-router.post("/manage/delete/:id", async (req, res, next) => {
-  await ticket.findByIdAndDelete(req.params.id);
-  res.redirect("/manage");
-});
-
 module.exports = router;
