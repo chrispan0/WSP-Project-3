@@ -5,22 +5,16 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 
 let indexRouter = require('../routes/index');
-let usersRouter = require('../routes/users');
-let bookRouter = require('../routes/book')
 
 let app = express();
 let mongoose = require('mongoose');
-let DB = require('./db');
-// point my mongoose to the URI
-mongoose.connect(DB.URI);
+require('dotenv').config();
 let mongoDB = mongoose.connection;
-mongoDB.on('error',console.error.bind(console,'Connection Error'))
+mongoDB.on('error',console.error.bind(console,'Connection Error'));
 mongoDB.once('open',()=>{
-  console.log('MongoDB Connected')
+  console.log('MongoDB Connected');
 })
-mongoose.connect(DB.URI,{useNewURIParser:true,
-  useUnifiedTopology:true
-})
+mongoose.connect(process.env.DB_URI);
 // view engine setup
 app.set('../views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -32,8 +26,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../node_modules')));
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/books',bookRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

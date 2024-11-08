@@ -1,29 +1,36 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
+var crypto = require("crypto");
+var ticket = require("../model/ticket");
 
-/* GET index page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Home' });
+router.get("/", function (req, res, next) {
+  res.render("index", { title: "Home" });
 });
-/* GET home page. */
-router.get('/home', function(req, res, next) {
-  res.render('index', { title: 'Home' });
+router.get("/ticket", function (req, res, next) {
+  res.render("ticket", { title: "Ticket Editor" });
 });
-/* GET about us page. */
-router.get('/aboutus', function(req, res, next) {
-  res.render('index', { title: 'About Us' });
+
+router.get("/manage", async (req, res, next) => {
+  const ticket_list = await ticket.find();
+  res.render("manage", {
+    title: "Manage Tickets",
+    ticket_list: ticket_list,
+  });
 });
-/* GET Product page. */
-router.get('/product', function(req, res, next) {
-  res.render('index', { title: 'Product' });
-});
-/* GET Services page. */
-router.get('/service', function(req, res, next) {
-  res.render('index', { title: 'Service' });
-});
-/* GET contact me page. */
-router.get('/contactus', function(req, res, next) {
-  res.render('index', { title: 'Contact us' });
+
+router.post("/create", async (req, res, next) => {
+  var { name, email, title, description, type, priority } = req.body;
+  new_ticket = new ticket({
+    id: crypto.randomUUID(),
+    name,
+    email,
+    title,
+    description,
+    type,
+    priority,
+  });
+  await new_ticket.save();
+  res.redirect("/");
 });
 
 module.exports = router;
