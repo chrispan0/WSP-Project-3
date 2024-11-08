@@ -1,13 +1,14 @@
 // MVC --> Model , View , Controller (Routers)
-let mongoose = require("mongoose");
+let mongoose = require('mongoose')
 // create a model class
 let ticketModel = new mongoose.Schema({
-  id: String,
-  name: String,
-  email: String,
-  title: String,
-  description: String,
-  type: String,
-  priority: Number,
-});
-module.exports = mongoose.model("ticket", ticketModel);
+    id:String,
+    name:String,
+    email:String,
+    title:String,
+    description:String,
+    type:String,
+    priority:Number
+}
+)
+module.exports = mongoose.model('ticket',ticketModel)
