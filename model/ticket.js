@@ -2,7 +2,6 @@
 let mongoose = require('mongoose')
 // create a model class
 let ticketModel = new mongoose.Schema({
-    id:String,
     name:String,
     email:String,
     title:String,

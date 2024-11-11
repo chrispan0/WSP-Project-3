@@ -1,41 +1,63 @@
 var express = require("express");
 var router = express.Router();
 var crypto = require("crypto");
-var ticket = require("../model/ticket");
+var Ticket = require("../model/ticket");
 
 router.get("/", function (req, res, next) {
-  res.render("index", { title: "Home" });
+  if (req.query.submitted == "true") {
+    res.render("index", { title: "CJB Support", submitted: true });
+  } else if (req.query.submitted == "false") {
+    res.render("index", { title: "CJB Support", submitted: false });
+  } else {
+    res.render("index", { title: "CJB Support" });
+  }
 });
-router.get("/ticket", function (req, res, next) {
-  res.render("ticket", { title: "Ticket Editor" });
+
+router.get("/editor", async (req, res, next) => {
+  try {
+    let ticket = await Ticket.findById(req.query.id);
+    if (ticket) {
+      res.render("editor", { title: "Ticket Editor", ticket: ticket });
+    } else {
+      res.render("editor", { title: "Ticket Editor" });
+    }
+  } catch {
+    res.redirect("/editor");
+  }
 });
 
 router.get("/manage", async (req, res, next) => {
-  const ticket_list = await ticket.find();
-  res.render("manage", {
-    title: "Manage Tickets",
-    ticket_list: ticket_list,
-  });
-});
-
-router.post("/create", async (req, res, next) => {
-  var { name, email, title, description, type, priority } = req.body;
-  new_ticket = new ticket({
-    id: crypto.randomUUID(),
-    name,
-    email,
-    title,
-    description,
-    type,
-    priority,
-  });
-  await new_ticket.save();
-  res.redirect("/");
-});
-
-router.post("/manage/delete/:id", async (req, res, next) => {
-  await ticket.findByIdAndDelete(req.params.id);
-  res.redirect("/manage");
+  const ticket_list = await Ticket.find();
+  if (req.query.edited == "true") {
+    res.render("manage", {
+      title: "Manage Tickets",
+      ticket_list: ticket_list,
+      edited: true,
+    });
+  } else if (req.query.edited == "false") {
+    res.render("manage", {
+      title: "Manage Tickets",
+      ticket_list: ticket_list,
+      edited: false,
+    });
+  } else if (req.query.deleted == "true") {
+    res.render("manage", {
+      title: "Manage Tickets",
+      ticket_list: ticket_list,
+      deleted: true,
+    });
+  } else if (req.query.deleted == "false") {
+    res.render("manage", {
+      title: "Manage Tickets",
+      ticket_list: ticket_list,
+      deleted: false,
+    });
+  } else {
+    res.render("manage", {
+      title: "Manage Tickets",
+      ticket_list: ticket_list,
+    });
+  }
 });
 
 module.exports = router;
