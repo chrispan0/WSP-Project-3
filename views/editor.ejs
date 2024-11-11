@@ -88,7 +88,7 @@
         >
         <select name="priority" class="form-select" id="priority" required>
           <option value="0" <%= (typeof ticket !== 'undefined' && ticket.priority == '0') ? 'selected' : '' %>>Low</option>
-          <option value="1" <%= (typeof ticket !== 'undefined' && ticket.priority == '1') ? 'selected' : '' %>>Medium (Default)</option>
+          <option value="1" <%= (typeof ticket !== 'undefined' && ticket.priority == '1' || typeof ticket == 'undefined') ? 'selected' : '' %>>Medium (Default)</option>
           <option value="2" <%= (typeof ticket !== 'undefined' && ticket.priority == '2') ? 'selected' : '' %>>High</option>
           <option value="3" <%= (typeof ticket !== 'undefined' && ticket.priority == '3') ? 'selected' : '' %>>Urgent</option>
         </select>
