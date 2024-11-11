@@ -2,37 +2,75 @@
 <main class="container">
   <div class="row py-5">
     <div class="offset-md-1 col-md-10">
-      <h1></h1>
       <table class="table table-bordered table-striped table-hover">
         <tr class="d-flex">
           <th class="col-2">Name</th>
           <th class="col-2">Email</th>
-          <th class="col-1">Title</th>
+          <th class="col-2">Title</th>
           <th class="col-3">Description</th>
           <th class="text-center col-1">Type</th>
           <th class="text-center col-1">Priority</th>
-          <th class="text-center col-1">Edit</th>
-          <th class="text-center col-1">Complete</th>
+          <th class="text-center col-1"></th>
         </tr>
         <% for(let count = 0; count < ticket_list.length; count++) { %>
         <tr class="d-flex">
           <td class="col-2"><%= ticket_list[count].name %></td>
           <td class="col-2"><%= ticket_list[count].email %></td>
-          <td class="col-1"><%= ticket_list[count].title %></td>
+          <td class="col-2"><%= ticket_list[count].title %></td>
           <td class="col-3"><%= ticket_list[count].description %></td>
           <td class="text-center col-1"><%= ticket_list[count].type %></td>
           <td class="text-center col-1"><%= ticket_list[count].priority %></td>
-          <td class="text-center col-1">
-            <button class="btn btn-primary">Edit</button>
-          </td>
-          <td class="text-center col-1">
-            <form
-              action="/manage/delete/<%= ticket_list[count]._id %>"
-              method="POST"
-              style="display: inline"
+          <td class="col-1">
+            <div class="row row-cols-2">
+              <button class="btn btn-primary">
+                <i class="fa-solid fa-file-pen"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#<%= ticket_list[count]._id %>DeleteModal"
+              >
+                <i class="fa-solid fa-file-excel"></i>
+              </button>
+            </div>
+            <div
+              class="modal fade"
+              id="<%= ticket_list[count]._id %>DeleteModal"
+              tabindex="-1"
             >
-              <button type="submit" class="btn btn-success">Complete</button>
-            </form>
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5">Delete Ticket</h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body"><%= ticket_list[count].title %></div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <form
+                      action="/manage/delete/<%= ticket_list[count]._id %>"
+                      method="POST"
+                    >
+                      <button type="submit" class="btn btn-danger">
+                        Delete
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
           </td>
         </tr>
         <% } %>
