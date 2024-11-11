@@ -20,6 +20,14 @@
           <td class="text-center col-1"><%= ticket_list[count].priority %></td>
           <td class="text-center col-2">
             <div class="btn-group">
+              <button
+                type="button"
+                class="btn btn-success"
+                data-bs-toggle="modal"
+                data-bs-target="#<%= ticket_list[count]._id %>ViewModal"
+              >
+                <i class="fa-solid fa-file-lines"></i>
+              </button>
               <a
                 href="/editor?id=<%= ticket_list[count]._id %>"
                 class="btn btn-primary"
@@ -33,6 +41,47 @@
               >
                 <i class="fa-solid fa-file-excel"></i>
               </button>
+            </div>
+            <div
+              class="modal fade"
+              id="<%= ticket_list[count]._id %>ViewModal"
+              tabindex="-1"
+            >
+              <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body text-start">
+                    <h2 class="fs-5">Name</h2>
+                    <p><%= ticket_list[count].name %></p>
+                    <h2 class="fs-5">Email</h2>
+                    <p><%= ticket_list[count].email %></p>
+                    <h2 class="fs-5">Issue Type</h2>
+                    <p><%= ticket_list[count].type %></p>
+                    <h2 class="fs-5">Priority</h2>
+                    <p><%= ticket_list[count].priority %></p>
+                    <h2 class="fs-5">Title</h2>
+                    <p><%= ticket_list[count].title %></p>
+                    <h2 class="fs-5">Description</h2>
+                    <p><%= ticket_list[count].description %></p>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
             <div
               class="modal fade"
@@ -50,7 +99,12 @@
                       aria-label="Close"
                     ></button>
                   </div>
-                  <div class="modal-body"><%= ticket_list[count].title %></div>
+                  <div class="modal-body text-start">
+                    <p>
+                      <b>Are you sure you want to delete the ticket titled "</b
+                      ><%= ticket_list[count].title %><b>" ?</b>
+                    </p>
+                  </div>
                   <div class="modal-footer">
                     <button
                       type="button"
