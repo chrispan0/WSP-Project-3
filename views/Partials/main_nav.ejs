@@ -2,7 +2,7 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
         <img src="/Content/favicon.svg" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
-        CJB Ticketing Services
+        CJB Support
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -18,15 +18,15 @@
               <i class="fa-solid fa-house"></i> Home</a>
           </li>
           <li class="nav-item">
-            <% if(title=="About Us") { %>
-              <a class="nav-link active" href="/ticket">
+            <% if(title=="Ticket Editor") { %>
+              <a class="nav-link active" href="/editor">
             <% } else { %>  
-              <a class="nav-link" href="/ticket">
+              <a class="nav-link" href="/editor">
             <% } %>
               <i class="fa-solid fa-plus"></i> Create</a>
           </li>
           <li class="nav-item">
-            <% if(title=="Product") { %>
+            <% if(title=="Manage Tickets") { %>
             <a class="nav-link active" href="/manage">
             <% } else { %>  
             <a class="nav-link" href="/manage"> 

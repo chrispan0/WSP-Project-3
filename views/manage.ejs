@@ -6,25 +6,25 @@
         <tr class="d-flex">
           <th class="col-2">Name</th>
           <th class="col-2">Email</th>
-          <th class="col-2">Title</th>
-          <th class="col-3">Description</th>
+          <th class="col-4">Title</th>
           <th class="text-center col-1">Type</th>
           <th class="text-center col-1">Priority</th>
-          <th class="text-center col-1"></th>
+          <th class="text-center col-2"></th>
         </tr>
         <% for(let count = 0; count < ticket_list.length; count++) { %>
         <tr class="d-flex">
           <td class="col-2"><%= ticket_list[count].name %></td>
           <td class="col-2"><%= ticket_list[count].email %></td>
-          <td class="col-2"><%= ticket_list[count].title %></td>
-          <td class="col-3"><%= ticket_list[count].description %></td>
+          <td class="col-4"><%= ticket_list[count].title %></td>
           <td class="text-center col-1"><%= ticket_list[count].type %></td>
           <td class="text-center col-1"><%= ticket_list[count].priority %></td>
-          <td class="col-1">
-            <div class="row row-cols-2">
-              <button class="btn btn-primary">
-                <i class="fa-solid fa-file-pen"></i>
-              </button>
+          <td class="text-center col-2">
+            <div class="btn-group">
+              <a
+                href="/editor?id=<%= ticket_list[count]._id %>"
+                class="btn btn-primary"
+                ><i class="fa-solid fa-file-pen"></i
+              ></a>
               <button
                 type="button"
                 class="btn btn-danger"
@@ -59,10 +59,12 @@
                     >
                       Cancel
                     </button>
-                    <form
-                      action="/manage/delete/<%= ticket_list[count]._id %>"
-                      method="POST"
-                    >
+                    <form action="/api/delete" method="POST">
+                      <input
+                        type="hidden"
+                        name="id"
+                        value="<%= ticket_list[count]._id %>"
+                      />
                       <button type="submit" class="btn btn-danger">
                         Delete
                       </button>

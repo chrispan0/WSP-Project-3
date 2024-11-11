@@ -5,18 +5,20 @@
     Please submit a ticket below and one of our Helpdesk Technicians will be
     with you shortly.
   </p>
-  <br />
 </div>
 
 <section id="contact" class="py-5">
   <div class="container">
     <h2 class="text-center mb-4">Submit a Ticket</h2>
     <form
-      action="/create"
+      <%= (typeof ticket !== 'undefined') ? 'action="/api/edit"' : 'action="/api/create"' %>
       method="post"
       enctype="application/x-www-form-urlencoded"
       class="row g-3"
     >
+      <% if (typeof ticket !== 'undefined') { %>
+        <input type="hidden" name="id" value="<%= ticket._id %>"/>
+      <% } %>
       <div class="col-md-6">
         <label for="name" class="form-label">Name:</label>
         <input
@@ -25,6 +27,7 @@
           name="name"
           class="form-control"
           placeholder="Add Name Here"
+          value="<%= (typeof ticket !== 'undefined') ? ticket.name : '' %>"
           required
         />
       </div>
@@ -37,6 +40,7 @@
           name="email"
           class="form-control"
           placeholder="Add Email Here"
+          value="<%= (typeof ticket !== 'undefined') ? ticket.email : '' %>"
           required
         />
       </div>
@@ -49,6 +53,7 @@
           name="title"
           class="form-control"
           placeholder="Add Title Here"
+          value="<%= (typeof ticket !== 'undefined') ? ticket.title : '' %>"
           required
         />
       </div>
@@ -62,7 +67,7 @@
           class="form-control"
           placeholder="Add Description Here"
           required
-        ></textarea>
+        ><%= (typeof ticket !== 'undefined') ? ticket.description : '' %></textarea>
       </div>
 
       <div class="col-md-6">
@@ -70,10 +75,10 @@
           >Please select the issue type</label
         >
         <select name="type" class="form-select" id="type" required>
-          <option value="soft">Software</option>
-          <option value="hard">Hardware</option>
-          <option value="inq">Inquiry/Question</option>
-          <option value="net">Network/WiFi</option>
+          <option value="Software" <%= (typeof ticket !== 'undefined' && ticket.type == 'Software') ? 'selected' : '' %>>Software</option>
+          <option value="Hardware" <%= (typeof ticket !== 'undefined' && ticket.type == 'Hardware') ? 'selected' : '' %>>Hardware</option>
+          <option value="Inquiry" <%= (typeof ticket !== 'undefined' && ticket.type == 'Inquiry') ? 'selected' : '' %>>Inquiry/Question</option>
+          <option value="Network" <%= (typeof ticket !== 'undefined' && ticket.type == 'Network') ? 'selected' : '' %>>Network/WiFi</option>
         </select>
       </div>
 
@@ -82,19 +87,22 @@
           >Please select the priority level</label
         >
         <select name="priority" class="form-select" id="priority" required>
-          <option value="0">OnCall (After Hours)</option>
-          <option value="1">Low</option>
-          <option value="2">Medium (Default)</option>
-          <option value="3">High</option>
-          <option value="4">Urgent</option>
+          <option value="0" <%= (typeof ticket !== 'undefined' && ticket.priority == '0') ? 'selected' : '' %>>Low</option>
+          <option value="1" <%= (typeof ticket !== 'undefined' && ticket.priority == '1') ? 'selected' : '' %>>Medium (Default)</option>
+          <option value="2" <%= (typeof ticket !== 'undefined' && ticket.priority == '2') ? 'selected' : '' %>>High</option>
+          <option value="3" <%= (typeof ticket !== 'undefined' && ticket.priority == '3') ? 'selected' : '' %>>Urgent</option>
         </select>
       </div>
 
-      <div class="col-12 text-center mt-4">
+      <div class="text-center">
         <button type="submit" class="btn btn-primary me-2 mt-5 mb-5">
-          Submit
+          <%= (typeof ticket !== 'undefined') ? 'Save' : 'Submit' %>
         </button>
-        <button type="reset" class="btn btn-secondary mt-5 mb-5">Reset</button>
+        <% if (typeof ticket == 'undefined') { %>
+          <button type="reset" class="btn btn-secondary me-2 mt-5 mb-5">Reset</button>
+        <% } else { %>
+          <a href="/manage" class="btn btn-secondary me-2 mt-5 mb-5">Back</a>
+        <% } %>
       </div>
     </form>
   </div>

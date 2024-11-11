@@ -1,8 +1,14 @@
 <%- include Partials/header.ejs %> <%- include Partials/main_nav.ejs %>
 <div class="container text-center">
-  <h1 class="display-4 mt-5 mb-5"><%= title %></h1>
+  <img
+    class="d-block mx-auto mt-5 mb-4"
+    src="/Content/favicon.svg"
+    alt="CJB Logo"
+    width="72"
+  />
+  <h1 class="display-4 fw-bold mb-4"><%= title %></h1>
   <div class="btn-group">
-    <a href="/ticket" class="btn btn-primary btn-lg">Create Ticket</a>
+    <a href="/editor" class="btn btn-primary btn-lg">Create Ticket</a>
     <a href="/manage" class="btn btn-secondary btn-lg">Manage Tickets</a>
   </div>
 </div>
