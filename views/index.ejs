@@ -1,5 +1,16 @@
 <%- include Partials/header.ejs %> <%- include Partials/main_nav.ejs %>
 <div class="container text-center">
+  <% if (typeof submitted !== 'undefined' && submitted) { %>
+  <div class="alert alert-success alert-dismissible my-5 text-start">
+    <strong>Success!</strong> Your ticket was submitted!
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  <% } %> <% if (typeof submitted !== 'undefined' && !submitted) { %>
+  <div class="alert alert-danger alert-dismissible my-5 text-start">
+    <strong>Error!</strong> Your ticket could not be submitted.
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  <% } %>
   <img
     class="d-block mx-auto mt-5 mb-4"
     src="/Content/favicon.svg"

@@ -1,5 +1,26 @@
 <%- include Partials/header.ejs %> <%- include Partials/main_nav.ejs %>
 <main class="container">
+  <% if (typeof edited !== 'undefined' && edited) { %>
+  <div class="alert alert-success alert-dismissible my-5">
+    <strong>Success!</strong> The ticket was updated!
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  <% } %> <% if (typeof edited !== 'undefined' && !edited) { %>
+  <div class="alert alert-danger alert-dismissible my-5">
+    <strong>Error!</strong> The ticket could not be updated.
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  <% } %> <% if (typeof deleted !== 'undefined' && deleted) { %>
+  <div class="alert alert-success alert-dismissible my-5">
+    <strong>Success!</strong> The ticket was deleted!
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  <% } %> <% if (typeof deleted !== 'undefined' && !deleted) { %>
+  <div class="alert alert-danger alert-dismissible my-5">
+    <strong>Error!</strong> The ticket could not be deleted.
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  <% } %>
   <div class="row py-5">
     <div class="offset-md-1 col-md-10">
       <table class="table table-bordered table-striped table-hover">
