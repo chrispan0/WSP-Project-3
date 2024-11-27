@@ -13,7 +13,6 @@ router.get("/", function (req, res, next) {
     res.render("index", { title: "CJB Support" });
   }
 });
-// Route to render the ticket editor page
 router.get("/editor", async (req, res, next) => {
   try {
     let ticket = await Ticket.findById(req.query.id);
@@ -25,6 +24,7 @@ router.get("/editor", async (req, res, next) => {
   } catch {
     res.redirect("/editor");
   }
+
 });
 // Route to render the manage tickets page
 router.get("/manage", async (req, res, next) => {
@@ -66,6 +66,14 @@ router.get("/manage", async (req, res, next) => {
       ticket_list: ticket_list,
     });
   }
+});
+
+router.get("/register", function (req, res, next) {
+  res.render("register", { title: "Register" });
+});
+
+router.get("/login", function (req, res, next) {
+  res.render("Login", { title: "Login" });
 });
 
 module.exports = router;
