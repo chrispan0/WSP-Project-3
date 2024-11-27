@@ -6,6 +6,7 @@ var ticket = require("../model/ticket");
 router.get("/", function (req, res, next) {
   res.render("index", { title: "Home" });
 });
+
 router.get("/ticket", function (req, res, next) {
   res.render("ticket", { title: "Ticket Editor" });
 });
@@ -36,6 +37,14 @@ router.post("/create", async (req, res, next) => {
 router.post("/manage/delete/:id", async (req, res, next) => {
   await ticket.findByIdAndDelete(req.params.id);
   res.redirect("/manage");
+});
+
+router.get("/register", function (req, res, next) {
+  res.render("register", { title: "Register" });
+});
+
+router.get("/login", function (req, res, next) {
+  res.render("Login", { title: "Login" });
 });
 
 module.exports = router;
