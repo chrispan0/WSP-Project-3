@@ -28,10 +28,10 @@ router.get("/editor", async (req, res, next) => {
 });
 // Route to render the manage tickets page
 router.get("/manage", async (req, res, next) => {
-  // Fetch all tickets from the database
-  const ticket_list = await Ticket.exists({ user: "placeholder" });
-  if (Ticket.exists({ user: "placeholder" }) == null) {
-    const ticket_list = await Ticket.find({ user: "placeholder" }); //** PL:ACEHOLDER VARIABLE */
+  session = req.cookies.session;
+  if ((await User.exists({ sessions: { $in: [session] } })) !== null) {
+    var session_user = await User.findOne({ sessions: { $in: [session] } });
+    const ticket_list = await Ticket.find({ user: session_user._id });
     // Check the 'edited' and 'deleted' query parameters to determine the render state
     if (req.query.edited == "true") {
       // Render the manage page with an edited success indicator

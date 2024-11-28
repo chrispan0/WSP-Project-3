@@ -4,12 +4,16 @@ var bcrypt = require("bcrypt");
 var { randomUUID } = require("crypto");
 var router = express.Router();
 var ticket = require("../model/ticket");
-var user = require("../model/user");
+var User = require("../model/user");
 // Route to handle ticket creation
 router.post("/create", async (req, res, next) => {
   try {
     // Destructure required fields from request body
     var { title, description, type, priority } = req.body;
+    session = req.cookies.session;
+    session_user = await User.findOne({ sessions: { $in: [session] } });
+    var user = session_user._id;
+    console.log(user);
     // Create a new ticket instance with provided details
     new_ticket = new ticket({
       user,
@@ -22,7 +26,8 @@ router.post("/create", async (req, res, next) => {
     await new_ticket.save();
     // Redirect to the home page with a success indicator
     res.redirect("/?submitted=true");
-  } catch {
+  } catch (err) {
+    console.log(err);
     // Redirect to the home page with a failure indicator if an error occurs
     res.redirect("/?submitted=false");
   }
@@ -32,7 +37,13 @@ router.post("/edit", async (req, res, next) => {
   try {
     // Destructure required fields from request body
     var { id, title, description, type, priority } = req.body;
+    session = req.cookies.session;
+    session_user = await User.findOne({ sessions: { $in: [session] } });
+    var user = session_user._id;
     // Find the ticket by ID and update its details
+
+    // TODO: Implement check if session user matches user in ticket
+
     await ticket.findByIdAndUpdate(id, {
       user,
       title,
@@ -64,9 +75,9 @@ router.post("/register", async (req, res, next) => {
   try {
     var { name, email, password, confirmpassword } = req.body;
     if (password == confirmpassword) {
-      if ((await user.exists({ email: email })) == null) {
+      if ((await User.exists({ email: email })) == null) {
         hash = await bcrypt.hash(password, 10);
-        new_user = new user({
+        new_user = new User({
           name,
           email,
           hash,
@@ -86,17 +97,21 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
   try {
     var { email, password } = req.body;
-    user_id = await user.exists({ email: email });
+    user_id = await User.exists({ email: email });
     if (user_id !== null) {
-      login_user = await user.findById(user_id);
+      login_user = await User.findById(user_id);
       if (bcrypt.compare(password, login_user.hash)) {
         session = randomUUID();
         login_user.sessions.push(session);
-        res.cookie({ session: session });
+        login_user.save();
+        res.cookie("session", session);
         res.redirect("/manage");
+      } else {
+        res.redirect("/login"); // TODO: ERROR MESSAGE
       }
+    } else {
+      res.redirect("/login"); // TODO: ERROR MESSAGE
     }
-    res.redirect("/login"); // TODO: ERROR MESSAGE
   } catch (err) {
     console.error(err);
     res.redirect("/"); // TODO: ERROR MESSAGE
