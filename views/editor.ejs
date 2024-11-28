@@ -19,32 +19,6 @@
       <% if (typeof ticket !== 'undefined') { %>
         <input type="hidden" name="id" value="<%= ticket._id %>"/>
       <% } %>
-      <div class="col-md-6">
-        <label for="name" class="form-label">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          class="form-control"
-          placeholder="Add Name Here"
-          value="<%= (typeof ticket !== 'undefined') ? ticket.name : '' %>"
-          required
-        />
-      </div>
-
-      <div class="col-md-6">
-        <label for="email" class="form-label">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          class="form-control"
-          placeholder="Add Email Here"
-          value="<%= (typeof ticket !== 'undefined') ? ticket.email : '' %>"
-          required
-        />
-      </div>
-
       <div class="col-md-12">
         <label for="title" class="form-label">Title:</label>
         <input
