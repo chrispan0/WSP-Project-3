@@ -4,7 +4,7 @@ let mongoose = require("mongoose");
 let userModel = new mongoose.Schema({
   name: String,
   email: String,
-  password: String,
+  hash: String,
   sessions: [String],
 });
 module.exports = mongoose.model("user", userModel);

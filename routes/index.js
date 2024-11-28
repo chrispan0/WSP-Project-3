@@ -68,7 +68,11 @@ router.get("/manage", async (req, res, next) => {
 });
 
 router.get("/register", function (req, res, next) {
-  res.render("register", { title: "Register" });
+  if (req.query.match == "false") {
+    res.render("register", { title: "Register", match: false });
+  } else {
+    res.render("register", { title: "Register" });
+  }
 });
 
 router.get("/login", function (req, res, next) {
