@@ -125,7 +125,7 @@ router.get("/logout", async (req, res, next) => {
   try {
     session = req.cookies.session;
     var session_user = await User.findOne({ sessions: { $in: [session] } });
-    session_user.sessions.slice(session_user.sessions.indexOf(session), 1);
+    session_user.sessions.splice(session_user.sessions.indexOf(session), 1);
     session_user.save();
     res.clearCookie("session");
     res.redirect("/"); // TODO: ERROR MESSAGE
