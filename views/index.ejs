@@ -18,9 +18,16 @@
     width="72"
   />
   <h1 class="display-4 fw-bold mb-4"><%= title %></h1>
+  <% if (loggedinnav) { %>
   <div class="btn-group">
     <a href="/editor" class="btn btn-primary btn-lg">Create Ticket</a>
     <a href="/manage" class="btn btn-secondary btn-lg">Manage Tickets</a>
   </div>
+  <% } else { %>
+  <div class="btn-group">
+    <a href="/login" class="btn btn-primary btn-lg">Login</a>
+    <a href="/register" class="btn btn-secondary btn-lg">Register</a>
+  </div>
+  <% } %>
 </div>
 <%- include Partials/footer.ejs %>
