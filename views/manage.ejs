@@ -34,8 +34,8 @@
         </tr>
         <% for(let count = 0; count < ticket_list.length; count++) { %>
         <tr class="d-flex">
-          <td class="col-2"><%= ticket_list[count].name %></td>
-          <td class="col-2"><%= ticket_list[count].email %></td>
+          <td class="col-2"><%= user_list[count][0] %></td>
+          <td class="col-2"><%= user_list[count][1] %></td>
           <td class="col-4"><%= ticket_list[count].title %></td>
           <td class="text-center col-1"><%= ticket_list[count].type %></td>
           <td class="text-center col-1"><%= ticket_list[count].priority %></td>
@@ -80,10 +80,10 @@
                   </div>
                   <div class="modal-body text-start">
                     <h2 class="fs-5">Name</h2>
-                    <p><%= ticket_list[count].name %></p>
+                    <p><%= user_list[count][0] %></p>
                     <h2 class="fs-5">Email</h2>
-                    <p><%= ticket_list[count].email %></p>
-                    <h2 class="fs-5">Issue Type</h2>
+                    <p><%= user_list[count][1] %></p>
+                    <h2 class="fs-5">Issue Type</h2s>
                     <p><%= ticket_list[count].type %></p>
                     <h2 class="fs-5">Priority</h2>
                     <p><%= ticket_list[count].priority %></p>

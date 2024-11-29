@@ -5,6 +5,7 @@ let userModel = new mongoose.Schema({
   name: String,
   email: String,
   hash: String,
+  admin: Boolean,
   sessions: [String],
 });
 module.exports = mongoose.model("user", userModel);

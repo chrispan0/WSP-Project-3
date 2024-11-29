@@ -39,20 +39,22 @@ router.post("/edit", async (req, res, next) => {
     var { id, title, description, type, priority } = req.body;
     session = req.cookies.session;
     session_user = await User.findOne({ sessions: { $in: [session] } });
-    var user = session_user._id;
-    // Find the ticket by ID and update its details
+    var selected_ticket = await ticket.findById(id);
+    var user = selected_ticket.user;
+    if (session_user.admin || user == session_user._id) {
+      await ticket.findByIdAndUpdate(id, {
+        user,
+        title,
+        description,
+        type,
+        priority,
+      });
+      res.redirect("/manage?edited=true");
+    } else {
+      res.redirect("/manage?edited=false");
+    }
 
-    // TODO: Implement check if session user matches user in ticket
-
-    await ticket.findByIdAndUpdate(id, {
-      user,
-      title,
-      description,
-      type,
-      priority,
-    });
     // Redirect to the management page with a success indicator
-    res.redirect("/manage?edited=true");
   } catch {
     // Redirect to the management page with a failure indicator if an error occurs
     res.redirect("/manage?edited=false");
@@ -81,6 +83,7 @@ router.post("/register", async (req, res, next) => {
           name,
           email,
           hash,
+          admin: false,
         });
         await new_user.save();
       }
@@ -112,6 +115,21 @@ router.post("/login", async (req, res, next) => {
     } else {
       res.redirect("/login"); // TODO: ERROR MESSAGE
     }
+  } catch (err) {
+    console.error(err);
+    res.redirect("/"); // TODO: ERROR MESSAGE
+  }
+});
+
+router.get("/logout", async (req, res, next) => {
+  try {
+    session = req.cookies.session;
+    var session_user = await User.findOne({ sessions: { $in: [session] } });
+    login_user = await User.findById(session);
+    login_user.sessions.slice(session_user.sessions.indexOf(session), 1);
+    login_user.save();
+    res.clearCookie("session");
+    res.redirect("/"); // TODO: ERROR MESSAGE
   } catch (err) {
     console.error(err);
     res.redirect("/"); // TODO: ERROR MESSAGE
