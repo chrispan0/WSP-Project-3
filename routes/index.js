@@ -91,13 +91,21 @@ router.get("/manage", async (req, res, next) => {
 router.get("/register", function (req, res, next) {
   if (req.query.match == "false") {
     res.render("register", { title: "Register", match: false });
+  } else if (req.query.registered == "false") {
+    res.render("register", { title: "Register", registered: false });
   } else {
     res.render("register", { title: "Register" });
   }
 });
 
 router.get("/login", function (req, res, next) {
-  res.render("login", { title: "Login" });
+  if (req.query.registered == "true") {
+    res.render("login", { title: "Login", registered: true });
+  } else if (req.query.loggedin == "false") {
+    res.render("login", { title: "Login", loggedin: false });
+  } else {
+    res.render("login", { title: "Login" });
+  }
 });
 
 module.exports = router;

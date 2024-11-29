@@ -6,6 +6,11 @@
     <strong>Error!</strong> Your passwords did not match!
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
   </div>
+  <% } %> <% if (typeof registered !== 'undefined' && !registered) { %>
+  <div class="alert alert-danger alert-dismissible my-5 text-start">
+    <strong>Error!</strong> Unable to create account!
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
   <% } %>
   <h1 class="display-4 fw-bold mt-5 mb-4"><%= title %></h1>
   <p class="lead mt-4 mb-2">

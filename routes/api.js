@@ -87,13 +87,13 @@ router.post("/register", async (req, res, next) => {
         });
         await new_user.save();
       }
-      res.redirect("/login");
+      res.redirect("/login?registered=true");
     } else {
       res.redirect("/register?match=false");
     }
   } catch (err) {
     console.error(err);
-    res.redirect("/"); // TODO: ERROR MESSAGE
+    res.redirect("/register?registered=false");
   }
 });
 
@@ -111,17 +111,16 @@ router.post("/login", async (req, res, next) => {
         res.cookie("session", session, {
           expire: date.getDate() + 1,
         });
-        res.session.cookie.expires = false;
         res.redirect("/manage");
       } else {
-        res.redirect("/login"); // TODO: ERROR MESSAGE
+        res.redirect("/login?loggedin=false"); // TODO: ERROR MESSAGE
       }
     } else {
-      res.redirect("/login"); // TODO: ERROR MESSAGE
+      res.redirect("/login?loggedin=false"); // TODO: ERROR MESSAGE
     }
   } catch (err) {
     console.error(err);
-    res.redirect("/"); // TODO: ERROR MESSAGE
+    res.redirect("/login?loggedin=false"); // TODO: ERROR MESSAGE
   }
 });
 
@@ -132,10 +131,11 @@ router.get("/logout", async (req, res, next) => {
     session_user.sessions.splice(session_user.sessions.indexOf(session), 1);
     session_user.save();
     res.clearCookie("session");
-    res.redirect("/"); // TODO: ERROR MESSAGE
+    res.redirect("/login");
   } catch (err) {
+    res.clearCookie("session");
     console.error(err);
-    res.redirect("/"); // TODO: ERROR MESSAGE
+    res.redirect("/login");
   }
 });
 
