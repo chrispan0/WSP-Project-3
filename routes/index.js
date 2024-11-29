@@ -9,17 +9,33 @@ router.get("/", async (req, res, next) => {
   session = req.cookies.session;
   if ((await User.exists({ sessions: { $in: [session] } })) !== null) {
     if (req.query.submitted == "true") {
-      res.render("index", { title: "CJB Support", submitted: true, loggedinnav: true });
+      res.render("index", {
+        title: "CJB Support",
+        submitted: true,
+        loggedinnav: true,
+      });
     } else if (req.query.submitted == "false") {
-      res.render("index", { title: "CJB Support", submitted: false, loggedinnav: true });
+      res.render("index", {
+        title: "CJB Support",
+        submitted: false,
+        loggedinnav: true,
+      });
     } else {
       res.render("index", { title: "CJB Support", loggedinnav: true });
     }
   } else {
     if (req.query.submitted == "true") {
-      res.render("index", { title: "CJB Support", submitted: true, loggedinnav: false });
+      res.render("index", {
+        title: "CJB Support",
+        submitted: true,
+        loggedinnav: false,
+      });
     } else if (req.query.submitted == "false") {
-      res.render("index", { title: "CJB Support", submitted: false, loggedinnav: false });
+      res.render("index", {
+        title: "CJB Support",
+        submitted: false,
+        loggedinnav: false,
+      });
     } else {
       res.render("index", { title: "CJB Support", loggedinnav: false });
     }
@@ -28,19 +44,23 @@ router.get("/", async (req, res, next) => {
 router.get("/editor", async (req, res, next) => {
   session = req.cookies.session;
   if ((await User.exists({ sessions: { $in: [session] } })) !== null) {
-  try {
-    let ticket = await Ticket.findById(req.query.id);
-    if (ticket) {
-      res.render("editor", { title: "Ticket Editor", ticket: ticket, loggedinnav: true });
-    } else {
-      res.render("editor", { title: "Ticket Editor", loggedinnav: true });
+    try {
+      let ticket = await Ticket.findById(req.query.id);
+      if (ticket) {
+        res.render("editor", {
+          title: "Ticket Editor",
+          ticket: ticket,
+          loggedinnav: true,
+        });
+      } else {
+        res.render("editor", { title: "Ticket Editor", loggedinnav: true });
+      }
+    } catch {
+      res.redirect("/editor");
     }
-  } catch {
-    res.redirect("/editor");
+  } else {
+    res.redirect("/login");
   }
-} else {
-  res.redirect("/login");
-}
 });
 // Route to render the manage tickets page
 router.get("/manage", async (req, res, next) => {
@@ -56,13 +76,18 @@ router.get("/manage", async (req, res, next) => {
     var user_list = [];
     for (var i = 0; i < ticket_list.length; i++) {
       var ticket_user = await User.findById(ticket_list[i].user);
-      user_list.push([ticket_user.name, ticket_user.email]);
+      if (ticket_user !== null) {
+        user_list.push([ticket_user.name, ticket_user.email]);
+      } else {
+        user_list.push(["Deleted User", "Deleted User"]);
+      }
     }
     // Check the 'edited' and 'deleted' query parameters to determine the render state
     if (req.query.edited == "true") {
       // Render the manage page with an edited success indicator
       res.render("manage", {
-        title: "Manage Tickets", loggedinnav: true,
+        title: "Manage Tickets",
+        loggedinnav: true,
         user_list: user_list,
         ticket_list: ticket_list,
         edited: true,
@@ -70,7 +95,8 @@ router.get("/manage", async (req, res, next) => {
     } else if (req.query.edited == "false") {
       // Render the manage page with an edited failure indicator
       res.render("manage", {
-        title: "Manage Tickets", loggedinnav: true,
+        title: "Manage Tickets",
+        loggedinnav: true,
         user_list: user_list,
         ticket_list: ticket_list,
         edited: false,
@@ -78,7 +104,8 @@ router.get("/manage", async (req, res, next) => {
     } else if (req.query.deleted == "true") {
       // Render the manage page with a deleted success indicator
       res.render("manage", {
-        title: "Manage Tickets", loggedinnav: true,
+        title: "Manage Tickets",
+        loggedinnav: true,
         user_list: user_list,
         ticket_list: ticket_list,
         deleted: true,
@@ -86,7 +113,8 @@ router.get("/manage", async (req, res, next) => {
     } else if (req.query.deleted == "false") {
       // Render the manage page with a deleted failure indicator
       res.render("manage", {
-        title: "Manage Tickets", loggedinnav: true,
+        title: "Manage Tickets",
+        loggedinnav: true,
         user_list: user_list,
         ticket_list: ticket_list,
         deleted: false,
@@ -94,7 +122,8 @@ router.get("/manage", async (req, res, next) => {
     } else {
       // Render the manage page without any edit or delete status
       res.render("manage", {
-        title: "Manage Tickets", loggedinnav: true,
+        title: "Manage Tickets",
+        loggedinnav: true,
         user_list: user_list,
         ticket_list: ticket_list,
       });
@@ -106,9 +135,17 @@ router.get("/manage", async (req, res, next) => {
 
 router.get("/register", function (req, res, next) {
   if (req.query.match == "false") {
-    res.render("register", { title: "Register", match: false, loggedinnav: false });
+    res.render("register", {
+      title: "Register",
+      match: false,
+      loggedinnav: false,
+    });
   } else if (req.query.registered == "false") {
-    res.render("register", { title: "Register", registered: false, loggedinnav: false });
+    res.render("register", {
+      title: "Register",
+      registered: false,
+      loggedinnav: false,
+    });
   } else {
     res.render("register", { title: "Register", loggedinnav: false });
   }
@@ -116,9 +153,17 @@ router.get("/register", function (req, res, next) {
 
 router.get("/login", function (req, res, next) {
   if (req.query.registered == "true") {
-    res.render("login", { title: "Login", registered: true, loggedinnav: false });
+    res.render("login", {
+      title: "Login",
+      registered: true,
+      loggedinnav: false,
+    });
   } else if (req.query.loggedin == "false") {
-    res.render("login", { title: "Login", loggedin: false, loggedinnav: false });
+    res.render("login", {
+      title: "Login",
+      loggedin: false,
+      loggedinnav: false,
+    });
   } else {
     res.render("login", { title: "Login", loggedinnav: false });
   }
