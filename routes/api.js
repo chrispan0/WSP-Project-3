@@ -109,7 +109,7 @@ router.post("/login", async (req, res, next) => {
         login_user.save();
         date = new Date();
         res.cookie("session", session, {
-          expire: date.getDate() + 1,
+          maxAge: 86400000,
         });
         res.redirect("/manage");
       } else {
