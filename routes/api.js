@@ -111,7 +111,7 @@ router.post("/login", async (req, res, next) => {
         res.cookie("session", session, {
           maxAge: 86400000,
         });
-        res.redirect("/manage");
+        res.redirect("/");
       } else {
         res.redirect("/login?loggedin=false"); // TODO: ERROR MESSAGE
       }
