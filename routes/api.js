@@ -109,9 +109,8 @@ router.post("/login", async (req, res, next) => {
         login_user.save();
         date = new Date();
         res.cookie("session", session, {
-          expire: date.getDate() + 1,
+          maxAge: 86400000,
         });
-        res.session.cookie.expires = false;
         res.redirect("/manage");
       } else {
         res.redirect("/login"); // TODO: ERROR MESSAGE
