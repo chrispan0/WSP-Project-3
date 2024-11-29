@@ -107,7 +107,11 @@ router.post("/login", async (req, res, next) => {
         session = randomUUID();
         login_user.sessions.push(session);
         login_user.save();
-        res.cookie("session", session);
+        date = new Date();
+        res.cookie("session", session, {
+          expire: date.getDate() + 1,
+        });
+        res.session.cookie.expires = false;
         res.redirect("/manage");
       } else {
         res.redirect("/login"); // TODO: ERROR MESSAGE
