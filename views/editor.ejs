@@ -6,17 +6,16 @@
     with you shortly.
   </p>
 </div>
-
 <section id="contact" class="py-5">
   <div class="container">
     <h2 class="text-center mb-4">Submit a Ticket</h2>
     <form
-      <%= (typeof ticket !== 'undefined') ? 'action=/api/edit' : 'action=/api/create' %>
+      <%= (ticket !== null) ? 'action=/api/edit' : 'action=/api/create' %>
       method="post"
       enctype="application/x-www-form-urlencoded"
       class="row g-3"
     >
-      <% if (typeof ticket !== 'undefined') { %>
+      <% if (ticket !== null) { %>
         <input type="hidden" name="id" value="<%= ticket._id %>"/>
       <% } %>
       <div class="col-md-12">
@@ -27,7 +26,7 @@
           name="title"
           class="form-control"
           placeholder="Add Title Here"
-          value="<%= (typeof ticket !== 'undefined') ? ticket.title : '' %>"
+          value="<%= (ticket !== null) ? ticket.title : '' %>"
           required
         />
       </div>
@@ -41,7 +40,7 @@
           class="form-control"
           placeholder="Add Description Here"
           required
-        ><%= (typeof ticket !== 'undefined') ? ticket.description : '' %></textarea>
+        ><%= (ticket !== null) ? ticket.description : '' %></textarea>
       </div>
 
       <div class="col-md-6">
@@ -49,10 +48,10 @@
           >Please select the issue type</label
         >
         <select name="type" class="form-select" id="type" required>
-          <option value="Software" <%= (typeof ticket !== 'undefined' && ticket.type == 'Software') ? 'selected' : '' %>>Software</option>
-          <option value="Hardware" <%= (typeof ticket !== 'undefined' && ticket.type == 'Hardware') ? 'selected' : '' %>>Hardware</option>
-          <option value="Inquiry" <%= (typeof ticket !== 'undefined' && ticket.type == 'Inquiry') ? 'selected' : '' %>>Inquiry/Question</option>
-          <option value="Network" <%= (typeof ticket !== 'undefined' && ticket.type == 'Network') ? 'selected' : '' %>>Network/WiFi</option>
+          <option value="Software" <%= (ticket !== null && ticket.type == 'Software') ? 'selected' : '' %>>Software</option>
+          <option value="Hardware" <%= (ticket !== null && ticket.type == 'Hardware') ? 'selected' : '' %>>Hardware</option>
+          <option value="Inquiry" <%= (ticket !== null && ticket.type == 'Inquiry') ? 'selected' : '' %>>Inquiry/Question</option>
+          <option value="Network" <%= (ticket !== null && ticket.type == 'Network') ? 'selected' : '' %>>Network/WiFi</option>
         </select>
       </div>
 
@@ -61,16 +60,16 @@
           >Please select the priority level</label
         >
         <select name="priority" class="form-select" id="priority" required>
-          <option value="0" <%= (typeof ticket !== 'undefined' && ticket.priority == '0') ? 'selected' : '' %>>Low</option>
-          <option value="1" <%= (typeof ticket !== 'undefined' && ticket.priority == '1' || typeof ticket == 'undefined') ? 'selected' : '' %>>Medium (Default)</option>
-          <option value="2" <%= (typeof ticket !== 'undefined' && ticket.priority == '2') ? 'selected' : '' %>>High</option>
-          <option value="3" <%= (typeof ticket !== 'undefined' && ticket.priority == '3') ? 'selected' : '' %>>Urgent</option>
+          <option value="0" <%= (ticket !== null && ticket.priority == '0') ? 'selected' : '' %>>Low</option>
+          <option value="1" <%= (ticket !== null && ticket.priority == '1' || typeof ticket == 'undefined') ? 'selected' : '' %>>Medium (Default)</option>
+          <option value="2" <%= (ticket !== null && ticket.priority == '2') ? 'selected' : '' %>>High</option>
+          <option value="3" <%= (ticket !== null && ticket.priority == '3') ? 'selected' : '' %>>Urgent</option>
         </select>
       </div>
 
       <div class="text-center">
         <button type="submit" class="btn btn-primary me-2 mt-5 mb-5">
-          <%= (typeof ticket !== 'undefined') ? 'Save' : 'Submit' %>
+          <%= (ticket !== null) ? 'Save' : 'Submit' %>
         </button>
         <% if (typeof ticket == 'undefined') { %>
           <button type="reset" class="btn btn-secondary me-2 mt-5 mb-5">Reset</button>

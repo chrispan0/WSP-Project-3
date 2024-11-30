@@ -19,7 +19,7 @@
                     <i class="fa-solid fa-house"></i> Home
                 </a>
         </li>
-        <% if(loggedinnav) { %>
+        <% if(loggedin) { %>
           <li class="nav-item">
             <% if(title=="Ticket Editor" ) { %>
               <a class="nav-link active" href="/editor">
@@ -42,7 +42,7 @@
             <a class="nav-link" href="/api/logout">
               <i class="fa-solid fa-user-lock"></i> Log Out</a>
           </li>
-          <% } else { %>
+        <% } else if (loggedin == false){ %>
             <li class="nav-item">
               <% if(title=="Login" ) { %>
                 <a class="nav-link active" href="/login">
@@ -61,7 +61,7 @@
                         <i class="fa-solid fa-user-plus"></i> Register
                     </a>
             </li>
-            <% } %>
+        <% } %>
               </li>
       </ul>
     </div>

@@ -1,172 +1,121 @@
 // Import required modules
 var express = require("express");
 var router = express.Router();
-var crypto = require("crypto");
 var Ticket = require("../model/ticket");
 var User = require("../model/user");
 // Route to render the home page
 router.get("/", async (req, res, next) => {
-  session = req.cookies.session;
+  let session = req.cookies.session;
+  let loggedin = false;
   if ((await User.exists({ sessions: { $in: [session] } })) !== null) {
-    if (req.query.submitted == "true") {
-      res.render("index", {
-        title: "CJB Support",
-        submitted: true,
-        loggedinnav: true,
-      });
-    } else if (req.query.submitted == "false") {
-      res.render("index", {
-        title: "CJB Support",
-        submitted: false,
-        loggedinnav: true,
-      });
-    } else {
-      res.render("index", { title: "CJB Support", loggedinnav: true });
-    }
-  } else {
-    if (req.query.submitted == "true") {
-      res.render("index", {
-        title: "CJB Support",
-        submitted: true,
-        loggedinnav: false,
-      });
-    } else if (req.query.submitted == "false") {
-      res.render("index", {
-        title: "CJB Support",
-        submitted: false,
-        loggedinnav: false,
-      });
-    } else {
-      res.render("index", { title: "CJB Support", loggedinnav: false });
-    }
+    loggedin = true;
   }
+  let alerts = [];
+  if (req.query.submitted == "true") {
+    alerts.push("ticket_submitted");
+  } else if (req.query.submitted == "false") {
+    alerts.push("ticket_not_submitted");
+  }
+  res.render("index", {
+    title: "CJB Support",
+    loggedin: loggedin,
+    alerts: alerts,
+  });
 });
+
 router.get("/editor", async (req, res, next) => {
-  session = req.cookies.session;
+  let session = req.cookies.session;
   if ((await User.exists({ sessions: { $in: [session] } })) !== null) {
+    let ticket = null;
     try {
-      let ticket = await Ticket.findById(req.query.id);
-      if (ticket) {
-        res.render("editor", {
-          title: "Ticket Editor",
-          ticket: ticket,
-          loggedinnav: true,
-        });
-      } else {
-        res.render("editor", { title: "Ticket Editor", loggedinnav: true });
-      }
+      ticket = await Ticket.findById(req.query.id);
     } catch {
       res.redirect("/editor");
     }
+    res.render("editor", {
+      title: "Ticket Editor",
+      ticket: ticket,
+      loggedin: true,
+    });
   } else {
     res.redirect("/login");
   }
 });
 // Route to render the manage tickets page
 router.get("/manage", async (req, res, next) => {
-  session = req.cookies.session;
+  let session = req.cookies.session;
   if ((await User.exists({ sessions: { $in: [session] } })) !== null) {
-    var session_user = await User.findOne({ sessions: { $in: [session] } });
+    let session_user = await User.findOne({ sessions: { $in: [session] } });
+    let ticket_list = null;
     if (session_user.admin) {
-      var ticket_list = await Ticket.find();
+      ticket_list = await Ticket.find();
     } else {
-      var ticket_list = await Ticket.find({ user: session_user._id });
+      ticket_list = await Ticket.find({ user: session_user._id });
     }
     // Loop through the list of tickets
-    var user_list = [];
-    for (var i = 0; i < ticket_list.length; i++) {
-      var ticket_user = await User.findById(ticket_list[i].user);
+    let user_list = [];
+    for (let i = 0; i < ticket_list.length; i++) {
+      let ticket_user = await User.findById(ticket_list[i].user);
       if (ticket_user !== null) {
         user_list.push([ticket_user.name, ticket_user.email]);
       } else {
         user_list.push(["Deleted User", "Deleted User"]);
       }
     }
+
+    let alerts = [];
     // Check the 'edited' and 'deleted' query parameters to determine the render state
     if (req.query.edited == "true") {
       // Render the manage page with an edited success indicator
-      res.render("manage", {
-        title: "Manage Tickets",
-        loggedinnav: true,
-        user_list: user_list,
-        ticket_list: ticket_list,
-        edited: true,
-      });
+      alerts.push("ticket_edited");
     } else if (req.query.edited == "false") {
       // Render the manage page with an edited failure indicator
-      res.render("manage", {
-        title: "Manage Tickets",
-        loggedinnav: true,
-        user_list: user_list,
-        ticket_list: ticket_list,
-        edited: false,
-      });
+      alerts.push("ticket_not_edited");
     } else if (req.query.deleted == "true") {
       // Render the manage page with a deleted success indicator
-      res.render("manage", {
-        title: "Manage Tickets",
-        loggedinnav: true,
-        user_list: user_list,
-        ticket_list: ticket_list,
-        deleted: true,
-      });
+      alerts.push("ticket_deleted");
     } else if (req.query.deleted == "false") {
       // Render the manage page with a deleted failure indicator
-      res.render("manage", {
-        title: "Manage Tickets",
-        loggedinnav: true,
-        user_list: user_list,
-        ticket_list: ticket_list,
-        deleted: false,
-      });
-    } else {
-      // Render the manage page without any edit or delete status
-      res.render("manage", {
-        title: "Manage Tickets",
-        loggedinnav: true,
-        user_list: user_list,
-        ticket_list: ticket_list,
-      });
+      alerts.push("ticket_not_deleted");
     }
+    res.render("manage", {
+      title: "Manage Tickets",
+      loggedin: true,
+      user_list: user_list,
+      ticket_list: ticket_list,
+      alerts: alerts,
+    });
   } else {
     res.redirect("/login");
   }
 });
 
 router.get("/register", function (req, res, next) {
+  let alerts = [];
   if (req.query.match == "false") {
-    res.render("register", {
-      title: "Register",
-      match: false,
-      loggedinnav: false,
-    });
+    alerts.push("user_confirm_password");
   } else if (req.query.registered == "false") {
-    res.render("register", {
-      title: "Register",
-      registered: false,
-      loggedinnav: false,
-    });
-  } else {
-    res.render("register", { title: "Register", loggedinnav: false });
+    alerts.push("user_not_registered");
   }
+  res.render("register", {
+    title: "Register",
+    alerts: alerts,
+    loggedin: false,
+  });
 });
 
 router.get("/login", function (req, res, next) {
+  let alerts = [];
   if (req.query.registered == "true") {
-    res.render("login", {
-      title: "Login",
-      registered: true,
-      loggedinnav: false,
-    });
+    alerts.push("user_registered");
   } else if (req.query.loggedin == "false") {
-    res.render("login", {
-      title: "Login",
-      loggedin: false,
-      loggedinnav: false,
-    });
-  } else {
-    res.render("login", { title: "Login", loggedinnav: false });
+    alerts.push("user_not_loggedin");
   }
+  res.render("login", {
+    title: "Login",
+    loggedin: false,
+    alerts: alerts,
+  });
 });
 
 module.exports = router;

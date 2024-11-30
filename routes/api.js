@@ -9,10 +9,10 @@ var User = require("../model/user");
 router.post("/create", async (req, res, next) => {
   try {
     // Destructure required fields from request body
-    var { title, description, type, priority } = req.body;
+    let { title, description, type, priority } = req.body;
     session = req.cookies.session;
     session_user = await User.findOne({ sessions: { $in: [session] } });
-    var user = session_user._id;
+    let user = session_user._id;
     console.log(user);
     // Create a new ticket instance with provided details
     new_ticket = new ticket({
@@ -36,11 +36,11 @@ router.post("/create", async (req, res, next) => {
 router.post("/edit", async (req, res, next) => {
   try {
     // Destructure required fields from request body
-    var { id, title, description, type, priority } = req.body;
+    let { id, title, description, type, priority } = req.body;
     session = req.cookies.session;
     session_user = await User.findOne({ sessions: { $in: [session] } });
-    var selected_ticket = await ticket.findById(id);
-    var user = selected_ticket.user;
+    let selected_ticket = await ticket.findById(id);
+    let user = selected_ticket.user;
     if (session_user.admin || user == session_user._id) {
       await ticket.findByIdAndUpdate(id, {
         user,
@@ -75,7 +75,7 @@ router.post("/delete", async (req, res, next) => {
 
 router.post("/register", async (req, res, next) => {
   try {
-    var { name, email, password, confirmpassword } = req.body;
+    let { name, email, password, confirmpassword } = req.body;
     if (password == confirmpassword) {
       if ((await User.exists({ email: email })) == null) {
         hash = await bcrypt.hash(password, 10);
@@ -99,7 +99,7 @@ router.post("/register", async (req, res, next) => {
 
 router.post("/login", async (req, res, next) => {
   try {
-    var { email, password } = req.body;
+    let { email, password } = req.body;
     user_id = await User.exists({ email: email });
     if (user_id !== null) {
       login_user = await User.findById(user_id);
@@ -127,7 +127,7 @@ router.post("/login", async (req, res, next) => {
 router.get("/logout", async (req, res, next) => {
   try {
     session = req.cookies.session;
-    var session_user = await User.findOne({ sessions: { $in: [session] } });
+    let session_user = await User.findOne({ sessions: { $in: [session] } });
     session_user.sessions.splice(session_user.sessions.indexOf(session), 1);
     session_user.save();
     res.clearCookie("session");
