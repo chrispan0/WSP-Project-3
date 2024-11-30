@@ -113,14 +113,14 @@ router.post("/login", async (req, res, next) => {
         });
         res.redirect("/");
       } else {
-        res.redirect("/login?loggedin=false"); // TODO: ERROR MESSAGE
+        res.redirect("/login?loggedin=false");
       }
     } else {
-      res.redirect("/login?loggedin=false"); // TODO: ERROR MESSAGE
+      res.redirect("/login?loggedin=false");
     }
   } catch (err) {
     console.error(err);
-    res.redirect("/login?loggedin=false"); // TODO: ERROR MESSAGE
+    res.redirect("/login?loggedin=false");
   }
 });
 
