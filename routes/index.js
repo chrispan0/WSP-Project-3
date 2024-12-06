@@ -1,5 +1,6 @@
 // Import required modules
 var express = require("express");
+var authRoutes = require("./routes/auth-routes");
 var router = express.Router();
 var Ticket = require("../model/ticket");
 var User = require("../model/user");
