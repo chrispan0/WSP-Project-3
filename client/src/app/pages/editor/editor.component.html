@@ -1,0 +1,69 @@
+<div class="container text-center">
+  <h1 class="display-4 fw-bold mt-5 mb-4">Ticket Editor</h1>
+  <p class="lead mt-4 mb-2">
+    Please submit a ticket below and one of our Helpdesk Technicians will be
+    with you shortly.
+  </p>
+</div>
+<section id="contact" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Submit a Ticket</h2>
+    <form class="row g-3">
+      <div class="col-md-12">
+        <label for="title" class="form-label">Title:</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="form-control"
+          placeholder="Add Title Here"
+          required
+        />
+      </div>
+
+      <div class="col-12">
+        <label for="description" class="form-label">Description:</label>
+        <textarea
+          id="description"
+          name="description"
+          rows="5"
+          class="form-control"
+          placeholder="Add Description Here"
+          required
+        ></textarea>
+      </div>
+      <div class="col-md-6">
+        <label for="type" class="form-label"
+          >Please select the issue type</label
+        >
+        <select name="type" class="form-select" id="type" required>
+          <option value="Software">Software</option>
+          <option value="Hardware">Hardware</option>
+          <option value="Inquiry">Inquiry/Question</option>
+          <option value="Network">Network/WiFi</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="priority" class="form-label"
+          >Please select the priority level</label
+        >
+        <select name="priority" class="form-select" id="priority" required>
+          <option value="0">Low</option>
+          <option value="1" selected>Medium (Default)</option>
+          <option value="2">High</option>
+          <option value="3">Urgent</option>
+        </select>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary me-2 mt-5 mb-5">
+          Submit
+        </button>
+        <button type="reset" class="btn btn-secondary me-2 mt-5 mb-5">
+          Reset
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
